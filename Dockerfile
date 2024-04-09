@@ -28,7 +28,7 @@ COPY --from=builder /usr/local/sbin/ /usr/local/sbin/
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
 COPY --from=builder /app/paho/docker_entrypoint.sh /app/paho/MQTTSNGateway/docker_entrypoint.sh
 
-RUN addgroup -S docker && adduser -S docker -G docker
+RUN addgroup -S docker && adduser -S docker && addgroup docker dialout
 
 RUN ldconfig /usr/local/lib/
 
