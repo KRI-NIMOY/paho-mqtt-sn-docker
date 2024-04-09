@@ -1,5 +1,5 @@
 FROM alpine AS builder
-ARG PROTOCOL=udp
+ARG PROTOCOL=xbee
 
 RUN apk add --no-cache make cmake g++ gcc openssl-dev net-tools tcpdump bash patch
 
