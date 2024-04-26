@@ -35,5 +35,3 @@ RUN ldconfig /usr/local/lib/
 USER docker
 
 ENTRYPOINT ["/app/paho/MQTTSNGateway/docker_entrypoint.sh"]
-
-EXPOSE 10000 10000/udp
