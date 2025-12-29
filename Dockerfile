@@ -1,4 +1,4 @@
-FROM alpine AS builder
+FROM alpine:3.19 AS builder
 ARG PROTOCOL=xbee
 
 RUN apk add --no-cache make cmake g++ gcc openssl-dev net-tools tcpdump bash patch
@@ -11,7 +11,10 @@ ADD ./patch /app/paho/patch
 
 RUN mkdir /usr/local/sbin && chmod 755 /usr/local/sbin
 
-RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && patch -Np0 < /app/paho/patch/MQTTSNGWProcess.cpp.patch
+RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && \
+    patch -Np0 < /app/paho/patch/MQTTSNGWProcess.cpp.patch && \
+    patch -Np0 < /app/paho/patch/MQTTSNGWConnectionHandler.cpp.patch && \
+    patch -Np0 < /app/paho/patch/MQTTSNGWClientRecvTask.cpp.patch
 
 RUN cd /app/paho/MQTTSNGateway && chmod +x build.sh && ./build.sh ${PROTOCOL}
 
@@ -19,7 +22,7 @@ RUN cd /app/paho/MQTTSNGateway && mkdir /etc/paho/ && cp bin/MQTT-SNGateway bin/
 
 RUN chmod 755 /etc/paho/gateway.conf
 
-FROM alpine:latest
+FROM alpine:3.19
 
 RUN apk add --no-cache openssl libgcc libstdc++
 

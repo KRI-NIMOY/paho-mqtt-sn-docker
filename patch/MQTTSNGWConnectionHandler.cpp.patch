@@ -1,0 +1,10 @@
+--- MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp.orig
++++ MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp
+@@ -133,6 +133,7 @@ void MQTTSNConnectionHandler::handleConnect(Client* client, MQTTSNPacket* packe
+ 
+     if (data.willFlag)
+     {
++        client->connectSended();
+         /* create & send WILLTOPICREQ message to the client */
+         MQTTSNPacket* reqTopic = new MQTTSNPacket();
+         reqTopic->setWILLTOPICREQ();
