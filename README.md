@@ -1,8 +1,23 @@
 # Eclipse Paho MQTT-SN Transparent / Aggregating Gateway
 
-This docker image contains custom build of Eclipse Paho MQTT-SN Gateway for **IPv4 UDP** packets. Images for ARM platforms are supported.
+This docker image contains custom builds of Eclipse Paho MQTT-SN Gateway for multiple protocols. Images for ARM platforms are supported.
 
 [MQTT-SN protocol](http://www.mqtt.org/new/wp-content/uploads/2009/06/MQTT-SN_spec_v1.2.pdf) requires a MQTT-SN Gateway which acts as a protocol converter to convert MQTT-SN messages to MQTT messages. MQTT-SN client can not communicate directly with MQTT broker (TCP/IP). You can find more information on [project GitHub](https://github.com/eclipse/paho.mqtt-sn.embedded-c/tree/master/MQTTSNGateway).
+
+## Available Image Tags
+
+The Docker images are built for both **xbee** and **udp** protocols with the following tags:
+
+- `latest` - Latest xbee protocol version (default)
+- `master` - Master branch xbee protocol version (same as latest)
+- `xbee` - Latest xbee protocol version
+- `udp` - Latest udp protocol version
+- `master-xbee` - Master branch xbee protocol version
+- `master-udp` - Master branch udp protocol version
+- `sha-<commit>-xbee` - Specific commit xbee version
+- `sha-<commit>-udp` - Specific commit udp version
+- `v*.*.*-xbee` - Tagged release xbee version
+- `v*.*.*-udp` - Tagged release udp version
 
 ## Build docker image
 
@@ -14,21 +29,29 @@ docker build [--build-arg PROTOCOL=<protocol>] .
 ```
 
 Following protocols are supported:
-* udp (default)
+* xbee (default for published images)
+* udp
 * udp6
 * dtls
 * dtls6
 * loralink
-* xbee
+
+Note: Published Docker images are available for xbee and udp protocols. Other protocols can be built manually using the build argument.
 
 ## Using the image
 
 ### Using default configuration
 
-Run gateway with default configuration. By default application is listening on port 10000 and connects to broker [mqtt.eclipse.org](https://mqtt.eclipse.org/).
+Run gateway with default configuration (xbee protocol). By default application is listening on port 10000 and connects to broker [mqtt.eclipse.org](https://mqtt.eclipse.org/).
 
 ```
 docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho
+```
+
+To use the UDP protocol version instead:
+
+```
+docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho:udp
 ```
 
 ### Using custom MQTT broker settings
