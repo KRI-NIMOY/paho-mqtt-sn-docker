@@ -11,7 +11,7 @@ ADD ./patch /app/paho/patch
 
 RUN mkdir /usr/local/sbin && chmod 755 /usr/local/sbin
 
-RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && patch -Np0 < /app/paho/patch/MQTTSNGWProcess.cpp.patch
+RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && patch -Np0 < /app/paho/patch/MQTTSNGWProcess.cpp.patch && patch -Np0 < /app/paho/patch/MQTTSNGWConnectionHandler.cpp.patch && patch -Np0 < /app/paho/patch/MQTTSNGWClientRecvTask.cpp.patch
 
 RUN cd /app/paho/MQTTSNGateway && chmod +x build.sh && ./build.sh ${PROTOCOL}
 
