@@ -31,14 +31,14 @@ docker build [--build-arg PROTOCOL=<protocol>] .
 ```
 
 Following protocols are supported:
-* xbee (default for published images)
+* xbee (default)
 * udp
 * udp6
 * dtls
 * dtls6
 * loralink
 
-Note: Published Docker images are available for xbee and udp protocols. Other protocols can be built manually using the build argument.
+Note: Published Docker images from GitHub Actions are available for xbee and udp protocols. Other protocols can be built manually using the build argument.
 
 ## Using the image
 
