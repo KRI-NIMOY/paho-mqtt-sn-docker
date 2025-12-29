@@ -1,4 +1,4 @@
-FROM alpine AS builder
+FROM alpine:3.19 AS builder
 ARG PROTOCOL=xbee
 
 RUN apk add --no-cache make cmake g++ gcc openssl-dev net-tools tcpdump bash patch
@@ -22,7 +22,7 @@ RUN cd /app/paho/MQTTSNGateway && mkdir /etc/paho/ && cp bin/MQTT-SNGateway bin/
 
 RUN chmod 755 /etc/paho/gateway.conf
 
-FROM alpine:latest
+FROM alpine:3.19
 
 RUN apk add --no-cache openssl libgcc libstdc++
 
