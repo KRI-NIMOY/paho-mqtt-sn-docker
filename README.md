@@ -12,6 +12,8 @@ The Docker images are built for both **xbee** and **udp** protocols with the fol
 - `master` - Master branch xbee protocol version (same as latest)
 - `xbee` - Latest xbee protocol version
 - `udp` - Latest udp protocol version
+- `latest-xbee` - Latest xbee protocol version
+- `latest-udp` - Latest udp protocol version
 - `master-xbee` - Master branch xbee protocol version
 - `master-udp` - Master branch udp protocol version
 - `sha-<commit>-xbee` - Specific commit xbee version
@@ -45,13 +47,13 @@ Note: Published Docker images are available for xbee and udp protocols. Other pr
 Run gateway with default configuration (xbee protocol). By default application is listening on port 10000 and connects to broker [mqtt.eclipse.org](https://mqtt.eclipse.org/).
 
 ```
-docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho
+docker run -d -p 10000:10000 -p 10000:10000/udp ghcr.io/kri-nimoy/paho-mqtt-sn-docker
 ```
 
 To use the UDP protocol version instead:
 
 ```
-docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho:udp
+docker run -d -p 10000:10000 -p 10000:10000/udp ghcr.io/kri-nimoy/paho-mqtt-sn-docker:udp
 ```
 
 ### Using custom MQTT broker settings
@@ -59,7 +61,7 @@ docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho:udp
 Run gateway with custom settings of MQTT broker IP address and port.
 
 ```
-docker run -d -p 10000:10000 -p 10000:10000/udp kyberpunk/paho --broker-name $HOST --broker-port $PORT
+docker run -d -p 10000:10000 -p 10000:10000/udp ghcr.io/kri-nimoy/paho-mqtt-sn-docker --broker-name $HOST --broker-port $PORT
 ```
 
 Modify $HOST to the target MQTT broker hostname or IP address and $PORT to target broker port number.
@@ -69,7 +71,7 @@ Modify $HOST to the target MQTT broker hostname or IP address and $PORT to targe
 Run gateway with custom configuration on filesystem. You can adjust default configuration template from [Eclipse project GitHub](https://github.com/eclipse/paho.mqtt-sn.embedded-c/blob/master/MQTTSNGateway/gateway.conf)
 
 ```
-docker run -d -p 10000:10000 -p 10000:10000/udp -v $PWD/gateway.conf:/etc/paho/gateway.conf:ro kyberpunk/paho
+docker run -d -p 10000:10000 -p 10000:10000/udp -v $PWD/gateway.conf:/etc/paho/gateway.conf:ro ghcr.io/kri-nimoy/paho-mqtt-sn-docker
 ```
 
 Modify $PWD to the directory where you stored the configuration file.

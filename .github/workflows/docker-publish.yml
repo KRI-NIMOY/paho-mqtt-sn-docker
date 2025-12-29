@@ -32,7 +32,7 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
-    
+
     strategy:
       matrix:
         protocol: [xbee, udp]
@@ -71,6 +71,7 @@ jobs:
             type=ref,event=tag,suffix=-${{ matrix.protocol }}
             type=sha,suffix=-${{ matrix.protocol }}
             type=raw,value=${{ matrix.protocol }}
+            type=raw,value=latest-${{ matrix.protocol }},enable=${{ github.ref == 'refs/heads/master' }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' && matrix.protocol == 'xbee' }}
             type=raw,value=master,enable=${{ github.ref == 'refs/heads/master' && matrix.protocol == 'xbee' }}
 
