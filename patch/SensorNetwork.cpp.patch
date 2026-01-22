@@ -1,0 +1,24 @@
+diff --git a/MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp b/MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp
+index 4be4eae..33c334b 100644
+--- a/MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp
++++ b/MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp
+@@ -223,7 +223,7 @@ int XBee:: unicast(const uint8_t* payload, uint16_t payloadLen, SensorNetAddress
+ 
+ int XBee::recv(uint8_t* buf, uint16_t bufLen, SensorNetAddress* clientAddr)
+ {
+-	uint8_t data[128];
++	uint8_t data[256];
+ 	int len;
+ 
+ 	while ( true )
+@@ -237,6 +237,10 @@ int XBee::recv(uint8_t* buf, uint16_t bufLen, SensorNetAddress* clientAddr)
+ 				memcpy(clientAddr->_address64, data + 1, 8);
+ 				memcpy(clientAddr->_address16, data + 9, 2);
+ 				len -= 12;
++				if (len > bufLen)
++				{
++					len = bufLen;
++				}
+ 				memcpy( buf, data + 12, len);
+ 				return len;
+ 			}
