@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug MQTT-SN Gateway (xbee)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway/bin/MQTT-SNGateway",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build MQTT-SN Gateway (xbee)",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "sourceMap": {}
+        },
+        {
+            "name": "Debug MQTT-SN Logmonitor",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway/bin/MQTT-SNLogmonitor",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build MQTT-SN Gateway (xbee)",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "sourceMap": {}
+        }
+    ]
+}

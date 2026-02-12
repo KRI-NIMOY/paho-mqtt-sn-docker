@@ -16,8 +16,8 @@ RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && \
     patch -Np0 < /app/paho/patch/MQTTSNGWConnectionHandler.cpp.patch && \
     patch -Np0 < /app/paho/patch/MQTTSNGWClientRecvTask.cpp.patch && \
     patch -Np0 < /app/paho/patch/SensorNetwork.cpp.patch && \
-    patch -Np0 < /app/paho/patch/StateGuards.patch && \
-    patch -Np0 < /app/paho/patch/TimeoutEnforcement.patch
+    patch -Np0 < /app/paho/patch/StateGuards.patch
+    # patch -Np0 < /app/paho/patch/TimeoutEnforcement.patch
 
 RUN cd /app/paho/MQTTSNGateway && chmod +x build.sh && ./build.sh ${PROTOCOL}
 
