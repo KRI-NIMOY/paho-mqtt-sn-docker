@@ -1,10 +1,14 @@
---- MQTTSNGateway/src/MQTTSNGWClientRecvTask.cpp.orig
+--- MQTTSNGateway/src/MQTTSNGWClientRecvTask.cpp
 +++ MQTTSNGateway/src/MQTTSNGWClientRecvTask.cpp
-@@ -152,9 +152,13 @@ void ClientRecvTask::run()
+@@ -149,11 +149,16 @@
+         {
+             log(client, packet, 0);
+ 
 -            if (client->isDisconnect() && packet->getType() != MQTTSN_CONNECT)
 +            if ((client->isDisconnect() && packet->getType() != MQTTSN_CONNECT) ||
 +                (client->isConnecting() && packet->getType() != MQTTSN_WILLTOPIC &&
-+                 packet->getType() != MQTTSN_WILLMSG && packet->getType() != MQTTSN_CONNECT))
++                 packet->getType() != MQTTSN_WILLMSG) ||
++                client->isLost())
              {
                  WRITELOG("%s MQTTSNGWClientRecvTask %s is not connecting.%s\n",
                  ERRMSG_HEADER, client->getClientId(), ERRMSG_FOOTER);
@@ -13,3 +17,4 @@
 +
                  /* send DISCONNECT to the client, if it is not connected */
                  MQTTSNPacket* snPacket = new MQTTSNPacket();
+                 snPacket->setDISCONNECT(0);

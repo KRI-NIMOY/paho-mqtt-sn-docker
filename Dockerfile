@@ -15,10 +15,21 @@ RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && \
     patch -Np0 < /app/paho/patch/MQTTSNGWProcess.cpp.patch && \
     patch -Np0 < /app/paho/patch/MQTTSNGWConnectionHandler.cpp.patch && \
     patch -Np0 < /app/paho/patch/MQTTSNGWClientRecvTask.cpp.patch && \
-    patch -Np0 < /app/paho/patch/SensorNetwork.cpp.patch
+    patch -Np0 < /app/paho/patch/SensorNetwork.cpp.patch && \
+    patch -Np0 < /app/paho/patch/StateGuards.patch && \
+    patch -Np0 < /app/paho/patch/TimeoutEnforcement.patch
 
 RUN cd /app/paho/MQTTSNGateway && chmod +x build.sh && ./build.sh ${PROTOCOL}
 
+# Test stage
+FROM builder AS test
+RUN cd /app/paho/build.gateway && make testPFW
+RUN cd /app/paho/MQTTSNGateway && \
+    sed -i 's/BrokerName=localhost/BrokerName=mqtt.eclipseprojects.io/' gateway.conf && \
+    ./bin/testPFW -f ./gateway.conf
+
+# Prepare for final image
+FROM builder AS artifacts
 RUN cd /app/paho/MQTTSNGateway && mkdir /etc/paho/ && cp bin/MQTT-SNGateway bin/MQTT-SNLogmonitor /usr/local/sbin/ && cp bin/clients.conf bin/gateway.conf bin/predefinedTopic.conf /etc/paho/ && cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacket.so /usr/local/lib/
 
 RUN chmod 755 /etc/paho/gateway.conf
@@ -27,10 +38,10 @@ FROM alpine:3.19
 
 RUN apk add --no-cache openssl libgcc libstdc++
 
-COPY --from=builder /etc/paho/ /etc/paho/
-COPY --from=builder /usr/local/sbin/ /usr/local/sbin/
-COPY --from=builder /usr/local/lib/ /usr/local/lib/
-COPY --from=builder /app/paho/docker_entrypoint.sh /app/paho/MQTTSNGateway/docker_entrypoint.sh
+COPY --from=artifacts /etc/paho/ /etc/paho/
+COPY --from=artifacts /usr/local/sbin/ /usr/local/sbin/
+COPY --from=artifacts /usr/local/lib/ /usr/local/lib/
+COPY --from=artifacts /app/paho/docker_entrypoint.sh /app/paho/MQTTSNGateway/docker_entrypoint.sh
 
 RUN addgroup -S docker && adduser -S docker && addgroup docker dialout
 

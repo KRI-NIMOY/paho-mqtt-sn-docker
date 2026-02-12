@@ -1,0 +1,129 @@
+--- MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp	2026-02-12 10:32:57.469209666 -0800
++++ MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp	2026-02-12 10:33:16.238472273 -0800
+@@ -37,6 +37,11 @@
+ 
+ MQTTGWPacket* MQTTSNPublishHandler::handlePublish(Client* client, MQTTSNPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return nullptr;
++    }
++
+     uint8_t dup;
+     int qos;
+     uint8_t retained;
+--- MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp	2026-02-12 10:32:57.469209666 -0800
++++ MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp	2026-02-12 10:34:06.766953616 -0800
+@@ -36,6 +36,11 @@
+ 
+ MQTTGWPacket* MQTTSNSubscribeHandler::handleSubscribe(Client* client, MQTTSNPacket* packet)
+ {
++    if (!client->isActive())
++    {
++        return nullptr;
++    }
++
+     uint8_t dup;
+     int qos;
+     uint16_t msgId;
+@@ -138,6 +143,11 @@
+ 
+ MQTTGWPacket* MQTTSNSubscribeHandler::handleUnsubscribe(Client* client, MQTTSNPacket* packet)
+ {
++    if (!client->isActive())
++    {
++        return nullptr;
++    }
++
+     uint16_t msgId;
+     MQTTSN_topicid topicFilter;
+     MQTTGWPacket* unsubscribe = nullptr;
+--- MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp	2026-02-12 10:32:57.469209666 -0800
++++ MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp	2026-02-12 10:34:18.267620283 -0800
+@@ -227,6 +227,11 @@
+  */
+ void MQTTSNConnectionHandler::handleDisconnect(Client* client, MQTTSNPacket* packet)
+ {
++    if (!client->isActive() && !client->isSleep() && !client->isAwake())
++    {
++        return;
++    }
++
+     uint16_t duration = 0;
+ 
+     if (packet->getDISCONNECT(&duration) != 0)
+@@ -279,6 +284,10 @@
+  */
+ void MQTTSNConnectionHandler::handlePingreq(Client* client, MQTTSNPacket* packet)
+ {
++    if (!client->isActive() && !client->isSleep() && !client->isAwake())
++    {
++        return;
++    }
+     if ((client->isSleep() || client->isAwake()) && client->getClientSleepPacket())
+     {
+         sendStoredPublish(client);
+--- MQTTSNGateway/src/MQTTGWPublishHandler.cpp	2026-02-12 10:32:57.469209666 -0800
++++ MQTTSNGateway/src/MQTTGWPublishHandler.cpp	2026-02-12 10:35:06.858316536 -0800
+@@ -198,6 +198,11 @@
+ 
+ void MQTTGWPublishHandler::handlePuback(Client* client, MQTTGWPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return;
++    }
++
+     Ack ack;
+     packet->getAck(&ack);
+     TopicIdMapElement* topicId = client->getWaitedPubTopicId((uint16_t) ack.msgId);
+--- MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp	2026-02-12 10:32:57.469209666 -0800
++++ MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp	2026-02-12 10:35:09.072649869 -0800
+@@ -32,6 +32,11 @@
+ 
+ void MQTTGWSubscribeHandler::handleSuback(Client* client, MQTTGWPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return;
++    }
++
+     uint16_t msgId;
+     uint8_t rc;
+     uint8_t returnCode;
+@@ -63,6 +68,11 @@
+ 
+ void MQTTGWSubscribeHandler::handleUnsuback(Client* client, MQTTGWPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return;
++    }
++
+     Ack ack;
+     packet->getAck(&ack);
+     MQTTSNPacket* snPacket = new MQTTSNPacket();
+@@ -74,6 +84,11 @@
+ 
+ void MQTTGWSubscribeHandler::handleAggregateSuback(Client* client, MQTTGWPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return;
++    }
++
+     uint16_t msgId = packet->getMsgId();
+     uint16_t clientMsgId = 0;
+     Client* newClient = _gateway->getAdapterManager()->getAggregater()->convertClient(msgId, &clientMsgId);
+@@ -86,6 +101,11 @@
+ 
+ void MQTTGWSubscribeHandler::handleAggregateUnsuback(Client* client, MQTTGWPacket* packet)
+ {
++    if (!client->isActive() && !client->isAwake())
++    {
++        return;
++    }
++
+     uint16_t msgId = packet->getMsgId();
+     uint16_t clientMsgId = 0;
+     Client* newClient = _gateway->getAdapterManager()->getAggregater()->convertClient(msgId, &clientMsgId);
