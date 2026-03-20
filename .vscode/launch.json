@@ -20,8 +20,7 @@
                 }
             ],
             "preLaunchTask": "Build MQTT-SN Gateway (xbee)",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "sourceMap": {}
+            "miDebuggerPath": "/usr/bin/gdb"
         },
         {
             "name": "Debug MQTT-SN Logmonitor",

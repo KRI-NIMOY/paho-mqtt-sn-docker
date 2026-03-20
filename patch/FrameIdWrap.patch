@@ -1,0 +1,11 @@
+--- MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp.orig	2026-03-19 20:50:30.288458084 -0700
++++ MQTTSNGateway/src/linux/xbee/SensorNetwork.cpp	2026-03-19 20:50:41.034655547 -0700
+@@ -339,7 +339,7 @@
+     _serialPort->send(API_XMITREQUEST); // Transmit Request API
+     checksum += API_XMITREQUEST;
+ 
+-    if (_frameId++ == 0x00 ) // Frame ID
++    if (++_frameId == 0x00 ) // Frame ID — pre-increment so 0xFF wraps to 0x00 before the check
+ 	{
+     	_frameId = 1;
+ 	}

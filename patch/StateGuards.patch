@@ -1,5 +1,5 @@
---- MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp	2026-02-12 10:32:57.469209666 -0800
-+++ MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp	2026-02-12 10:33:16.238472273 -0800
+--- MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp
++++ MQTTSNGateway/src/MQTTSNGWPublishHandler.cpp
 @@ -37,6 +37,11 @@
  
  MQTTGWPacket* MQTTSNPublishHandler::handlePublish(Client* client, MQTTSNPacket* packet)
@@ -12,8 +12,8 @@
      uint8_t dup;
      int qos;
      uint8_t retained;
---- MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp	2026-02-12 10:32:57.469209666 -0800
-+++ MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp	2026-02-12 10:34:06.766953616 -0800
+--- MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp
++++ MQTTSNGateway/src/MQTTSNGWSubscribeHandler.cpp
 @@ -36,6 +36,11 @@
  
  MQTTGWPacket* MQTTSNSubscribeHandler::handleSubscribe(Client* client, MQTTSNPacket* packet)
@@ -38,8 +38,8 @@
      uint16_t msgId;
      MQTTSN_topicid topicFilter;
      MQTTGWPacket* unsubscribe = nullptr;
---- MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp	2026-02-12 10:32:57.469209666 -0800
-+++ MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp	2026-02-12 10:34:18.267620283 -0800
+--- MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp
++++ MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp
 @@ -227,6 +227,11 @@
   */
  void MQTTSNConnectionHandler::handleDisconnect(Client* client, MQTTSNPacket* packet)
@@ -63,8 +63,8 @@
      if ((client->isSleep() || client->isAwake()) && client->getClientSleepPacket())
      {
          sendStoredPublish(client);
---- MQTTSNGateway/src/MQTTGWPublishHandler.cpp	2026-02-12 10:32:57.469209666 -0800
-+++ MQTTSNGateway/src/MQTTGWPublishHandler.cpp	2026-02-12 10:35:06.858316536 -0800
+--- MQTTSNGateway/src/MQTTGWPublishHandler.cpp
++++ MQTTSNGateway/src/MQTTGWPublishHandler.cpp
 @@ -198,6 +198,11 @@
  
  void MQTTGWPublishHandler::handlePuback(Client* client, MQTTGWPacket* packet)
@@ -77,8 +77,8 @@
      Ack ack;
      packet->getAck(&ack);
      TopicIdMapElement* topicId = client->getWaitedPubTopicId((uint16_t) ack.msgId);
---- MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp	2026-02-12 10:32:57.469209666 -0800
-+++ MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp	2026-02-12 10:35:09.072649869 -0800
+--- MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp
++++ MQTTSNGateway/src/MQTTGWSubscribeHandler.cpp
 @@ -32,6 +32,11 @@
  
  void MQTTGWSubscribeHandler::handleSuback(Client* client, MQTTGWPacket* packet)

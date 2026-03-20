@@ -22,6 +22,9 @@
             "label": "Clean Build",
             "type": "shell",
             "command": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway/build.sh",
+            "options": {
+                "cwd": "${workspaceFolder}/paho.mqtt-sn.embedded-c/MQTTSNGateway"
+            },
             "args": [
                 "clean"
             ],
