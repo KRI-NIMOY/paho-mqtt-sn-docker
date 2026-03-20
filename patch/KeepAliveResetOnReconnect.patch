@@ -1,0 +1,15 @@
+--- MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp
++++ MQTTSNGateway/src/MQTTSNGWConnectionHandler.cpp
+@@ -93,6 +93,12 @@
+     if (!client->isAdapter())
+     {
+         client->disconnected();
++        /* Reset the keepalive timer from the new CONNECT's duration, regardless of
++         * the previous session state.  Without this, a quick reboot (puck reconnects
++         * before the old session times out) leaves the stale timer running, so
++         * checkTimeover() can fire almost immediately after the new connection is
++         * established if the old timer had little time remaining. */
++        client->setKeepAlive(packet);
+     }
+
+     Topics* topics = client->getTopics();

@@ -20,7 +20,8 @@ RUN patch -Np0 < /app/paho/patch/MQTTSNGWLogmonitor.cpp.patch && \
     patch -Np0 < /app/paho/patch/TimeoutEnforcement.patch && \
     patch -Np0 < /app/paho/patch/StaleXBeeTxStatus.patch && \
     patch -Np0 < /app/paho/patch/FrameIdWrap.patch && \
-    patch -Np0 < /app/paho/patch/PayloadLenTruncation.patch
+    patch -Np0 < /app/paho/patch/PayloadLenTruncation.patch && \
+    patch -Np0 < /app/paho/patch/KeepAliveResetOnReconnect.patch
 
 RUN cd /app/paho/MQTTSNGateway && chmod +x build.sh && ./build.sh ${PROTOCOL}
 
