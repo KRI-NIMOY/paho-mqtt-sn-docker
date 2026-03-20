@@ -1,0 +1,12 @@
+diff --git MQTTSNGateway/src/MQTTSNGWClient.cpp MQTTSNGateway/src/MQTTSNGWClient.cpp
+index 940b13d..1a2f3c0 100644
+--- MQTTSNGateway/src/MQTTSNGWClient.cpp
++++ MQTTSNGateway/src/MQTTSNGWClient.cpp
+@@ -298,6 +298,7 @@ void Client::connackSended(int rc)
+     if (rc == MQTTSN_RC_ACCEPTED)
+     {
+         _status = Cstat_Active;
++        _keepAliveTimer.start(_keepAliveMsec * 1.5);
+     }
+     else
+     {
